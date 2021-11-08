@@ -1,6 +1,6 @@
 Package: mstate
-Version: 0.3.1
-Date: 2020-12-17
+Version: 0.3.2
+Date: 2021-11-08
 Title: Data Preparation, Estimation and Prediction in Multi-State
         Models
 Authors@R: c(
@@ -27,7 +27,7 @@ Authors@R: c(
   person(
     given = "Edouard F.",
     family = "Bonneville",
-    role = "ctb"
+    role = "aut"
   ),
   person(
     given = "Damjan",
@@ -36,8 +36,8 @@ Authors@R: c(
   )
   ) 
 Depends: survival (>= 3.1)
-Imports: rlang, data.table, magrittr, lattice, RColorBrewer, viridis
-Suggests: cmprsk, ggplot2, knitr, rmarkdown
+Imports: rlang, data.table, lattice, RColorBrewer, viridisLite
+Suggests: cmprsk, ggplot2, knitr, rmarkdown, relsurv (>= 2.2-5)
 Description: Contains functions for data preparation, descriptives, hazard estimation and prediction with Aalen-Johansen or simulation in competing risks and multi-state models, see Putter, Fiocco, Geskus (2007) <doi:10.1002/sim.2712>.
 License: GPL (>= 2)
 Encoding: UTF-8
@@ -45,7 +45,7 @@ URL:
         https://www.lumc.nl/org/bds/research/medische-statistiek/survival-analysis/
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2020-12-17 11:17:26 UTC; hputter
+Packaged: 2021-11-08 10:26:05 UTC; hputter
 RoxygenNote: 7.1.1
 BugReports: https://github.com/hputter/mstate/issues
 VignetteBuilder: knitr
@@ -53,7 +53,7 @@ Author: Hein Putter [aut, cre],
   Liesbeth C. de Wreede [aut],
   Marta Fiocco [aut],
   Ronald B. Geskus [ctb],
-  Edouard F. Bonneville [ctb],
+  Edouard F. Bonneville [aut],
   Damjan Manevski [ctb]
 Maintainer: Hein Putter <H.Putter@lumc.nl>
-Date/Publication: 2020-12-17 17:00:03 UTC
+Date/Publication: 2021-11-08 11:50:02 UTC

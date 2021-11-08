@@ -107,6 +107,25 @@ plot(
   ggtitle("Cumulative baseline hazards") +
   theme(plot.title = element_text(hjust = 0.5))
 
+## ----msfitplot_confint1-------------------------------------------------------
+plot(
+  msf.WW, 
+  type = "single", 
+  use.ggplot = TRUE,
+  conf.type = "log", 
+  conf.int = 0.95
+)
+
+## ----msfitplot_confint2-------------------------------------------------------
+plot(
+  msf.WW, 
+  type = "separate", 
+  use.ggplot = TRUE,
+  conf.type = "log", 
+  conf.int = 0.95,
+  scale_type = "free_y"
+)
+
 ## -----------------------------------------------------------------------------
 # Run probtrans
 pt.WW <- probtrans(msf.WW, predt = 0)
@@ -199,12 +218,10 @@ cum_incid <- Cuminc(
 plot(
   x = cum_incid,
   use.ggplot = TRUE,
-  conf.type = "none",
+  conf.type = "log",
   lty = 1:2,
   conf.int = 0.95,
 )
-
-
 
 ## ----plot.cuminc_x------------------------------------------------------------
 cum_incid_grp <- Cuminc(
@@ -288,9 +305,9 @@ vis.mirror.pt(
   x = list(pt.WW, pt.WM),
   titles = c("WW", "WM"),
   size_titles = 8,
-  horizon = 3,
-  breaks_x_left = c(0, 1, 2, 3),
-  breaks_x_right = c(0, 1, 2),
+  horizon = 5,
+  breaks_x_left = c(0, 1, 2, 3, 4, 5),
+  breaks_x_right = c(0, 1, 2, 3, 4),
   ord = c(3, 2, 1)
 )
 

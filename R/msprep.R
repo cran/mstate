@@ -114,6 +114,7 @@ msprep <- function (time, status, data, trans, start, id, keep)
 {
     if (is.circular(trans))
         stop("msprep cannot be used with a circular transition matrix")
+    if (!missing(data)) data <- as.data.frame(data)
     if (!(is.matrix(time) | (is.data.frame(time)))) {
         if (!is.character(time)) 
             stop("argument \"time\" should be a character vector")
@@ -174,7 +175,7 @@ msprep <- function (time, status, data, trans, start, id, keep)
                     stop("cannot determine whether \"id\" argument indicates ")
                   else {
                     idname <- id
-                    id <- data[[id]]
+                    id <- as.factor(data[[id]])
                   }
                 }
                 else {
@@ -261,8 +262,7 @@ msprep <- function (time, status, data, trans, start, id, keep)
             if (nkeep > 1)
               keep <- keep[ord1,,drop=FALSE]
             if (nkeep == 1) {
-              ddcovs <- rep(keep, tbl)
-              ddcovs <- ddcovs[ord]
+              ddcovs <- rep(keep[ord1], tbl)
               ddcovs <- as.data.frame(ddcovs)
               names(ddcovs) <- keepname
             }

@@ -1,6 +1,6 @@
 #' Visualise multiple probtrans objects
 #' 
-#' Helper function allow to visualise state probabilities for 
+#' Helper function allowing to visualise state probabilities for 
 #' different reference patients/covariates. Multiple \code{"probtrans"} objects
 #' are thus needed.
 #'
@@ -82,7 +82,7 @@ vis.multiple.pt <- function(x,
                             from = 1,
                             to,
                             xlab = "Time",
-                            ylab,
+                            ylab = "Probability",
                             xlim = NULL,
                             ylim = NULL,
                             cols,
@@ -92,18 +92,20 @@ vis.multiple.pt <- function(x,
                             conf.type = c("log", "plain", "none"),
                             legend.title) {
   
-  # For cmd check
+  # Check for ggplot2
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Package ggplot2 needed for this function to work. Please install it.", call. = FALSE)
+  }
+  
   . <- time <- state <- prob <- CI_low <- CI_upp <- PT <-  NULL
   
   # Check x are probtrans objects
-  cond <- sapply(x, function(p) inherits(p, what = "probtrans"))
+  cond <- vapply(x, function(p) inherits(p, what = "probtrans"), FUN.VALUE = logical(1L))
   if (!all(cond)) stop("x should be a list of probtrans objects")
   
   # Check conf
   conf.type <- match.arg(conf.type)
-  
-  # Check labels
-  if (missing(labels)) labels <- paste0("pt_", 1:length(x))
+  if (missing(labels)) labels <- paste0("pt_", seq_along(x))
   if (missing(legend.title)) legend.title <- "PT"
   if (missing(to)) stop("Please specify destination state in 'to'!")
   if (missing(lwd)) lwd <- 1
@@ -116,39 +118,20 @@ vis.multiple.pt <- function(x,
   tmat_to <- dimnames(tmat)[["to"]]
   to <- tmat_to[to]
   
-  # Set ylab
-  if (missing(ylab)) ylab <- paste0(
-    "Probability ", to, " from ", tmat_to[from]
-  )
-  
-  # Number of pt
+  # Set ylab and colours
+  if (missing(ylab)) ylab <- paste0("Probability ", to, " from ", tmat_to[from])
   n_pt <- length(x)
-  
-  # Check colours
-  if (missing(cols)) {
+  if (missing(cols)) cols <- set_colours(n_pt, type = "line")
     
-    # Extend colourbrewer Dark2 palette
-    if (n_pt <= 8) {
-      full_pal <- RColorBrewer::brewer.pal(8, "Dark2")
-      cols <- full_pal[1:n_pt]
-    } else {
-      dark2_extended <- grDevices::colorRampPalette(
-        RColorBrewer::brewer.pal(8, "Dark2")
-      )
-      cols <- dark2_extended(n_pt)
-    }
-    
-  }
-  
   # Prep data
-  dfs_labelled <- lapply(1:length(x), function(i) {
+  dfs_labelled <- lapply(seq_len(n_pt), function(i) {
     p <- plot(
       x[[i]], 
       type = "separate", 
       from = from, 
       conf.int = conf.int,
       conf.type = conf.type,
-      use.ggplot = T
+      use.ggplot = TRUE
     )
     df <- p$data
     df[, PT := labels[i]]
@@ -156,17 +139,28 @@ vis.multiple.pt <- function(x,
   })
   
   # Plot
-  p <- do.call(rbind, dfs_labelled) %>% 
-    .[state == to] %>% 
-    ggplot2::ggplot(ggplot2::aes(
-      x = time, 
-      y = prob, 
-      ymin = CI_low, 
-      ymax = CI_upp,
-      group = PT
-    )) +
-    ggplot2::geom_ribbon(alpha = 0.5, fill = "grey70", col = NA) +
-    ggplot2::geom_line(ggplot2::aes(col = PT), size = lwd) +
+  df_steps <- data.table::rbindlist(dfs_labelled)[state == to]
+  p <- ggplot2::ggplot(
+    data = df_steps,
+    ggplot2::aes(
+      x = .data$time, 
+      y = .data$prob, 
+      group = .data$PT
+    )
+  )
+  
+  if (sum(grepl(pattern = "CI_low|CI_upp", x = names(df_steps)) > 0)) {
+    p <- p + ggplot2::geom_ribbon(
+      ggplot2::aes(ymin = .data$CI_low, ymax = .data$CI_upp), 
+      alpha = 0.5, 
+      fill = "grey70",
+      col = NA,
+      na.rm = TRUE
+    )
+  }
+  
+  p <- p + 
+    ggplot2::geom_line(ggplot2::aes(col = .data$PT), size = lwd) +
     ggplot2::scale_colour_manual(values = cols) +
     ggplot2::coord_cartesian(xlim = xlim, ylim = ylim, expand = 0) +
     ggplot2::labs(x = xlab, y = ylab) +

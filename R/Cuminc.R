@@ -23,16 +23,13 @@
 #' @param group Optionally, name of column in data indicating a grouping
 #' variable; cumulative incidence functions are calculated for each value or
 #' level of \code{group}. If missing no groups are considered
-#' @param failcodes A vector indicating which values of \code{status} are
-#' considered as different causes of failure; other values of \code{status} are
-#' considered as censorings. If missing and \code{status} is numeric, it is
-#' assumed that 0 is censoring and all other values indicate failcodes; if
-#' missing and \code{status} is character or factor, then it is assumed that
-#' each of the levels/values of \code{status} is a cause of failure
 #' @param na.status One of \code{"remove"} (default) or \code{"extra"},
 #' indicating whether subjects with missing cause of failure should be removed
 #' or whether missing cause of failure should be treated as a separate cause of
 #' failure
+#' @param ... Allows extra arguments for future extensions, but for now just
+#' used for backwards compatibility (e.g. allowing use of defunct \code{failcodes}
+#' argument in reverse dependencies).
 #' 
 #' @return An object of class \code{"Cuminc"}, which is a data frame containing
 #' the estimated failure-free probabilities and cumulative incidences and their
@@ -62,7 +59,6 @@
 #' 
 #' de Wreede L, Fiocco M, Putter H (2009). The mstate package for estimation
 #' and prediction in non- and semi-parametric multi-state models. Submitted.
-#' \url{http://www.msbi.nl/multistate}.
 #' @keywords survival
 #' @examples
 #' 
@@ -86,9 +82,12 @@
 #' Cuminc(time="surv", status="stat", data=fake0)
 #' 
 #' @export 
-`Cuminc` <- function(time, status, data, group, failcodes, 
-                     na.status=c("remove","extra"))
+`Cuminc` <- function(time, status, data, group, 
+                     na.status=c("remove","extra"), ...)
 {
+  # Coerce data to data.frame as in msprep()
+  if (!missing(data)) data <- as.data.frame(data)
+  
   ## time
   if (!is.vector(time)) stop("argument \"time\" not of correct type")
   if (is.character(time)) {
@@ -101,7 +100,6 @@
   if (!is.vector(status)) stop("argument \"status\" not of correct type")
   if (is.character(status)) {
     if (length(status) == 1) {
-      if (missing(data)) stop("argument \"data\" missing")
       status <- data[[status]]
     }
   }
@@ -129,7 +127,6 @@
   } else {
     if (!(is.matrix(group)|(is.data.frame(group)))) { # then group should be a vector
       if (is.character(group)) { # character vector
-        if (missing(data)) stop("argument \"data\" is missing, with no default")
         ngroup <- length(group)
         if (ngroup!=1) stop("only single grouping variable possible")
         kcols <- match(group,names(data))

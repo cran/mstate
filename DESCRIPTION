@@ -1,6 +1,6 @@
 Package: mstate
-Version: 0.3.2
-Date: 2021-11-08
+Version: 0.3.3
+Date: 2024-07-03
 Title: Data Preparation, Estimation and Prediction in Multi-State
         Models
 Authors@R: c(
@@ -41,12 +41,11 @@ Suggests: cmprsk, ggplot2, knitr, rmarkdown, relsurv (>= 2.2-5)
 Description: Contains functions for data preparation, descriptives, hazard estimation and prediction with Aalen-Johansen or simulation in competing risks and multi-state models, see Putter, Fiocco, Geskus (2007) <doi:10.1002/sim.2712>.
 License: GPL (>= 2)
 Encoding: UTF-8
-URL:
-        https://www.lumc.nl/org/bds/research/medische-statistiek/survival-analysis/
+URL: https://github.com/hputter/mstate
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2021-11-08 10:26:05 UTC; hputter
-RoxygenNote: 7.1.1
+Packaged: 2024-07-11 08:03:11 UTC; efbonneville
+RoxygenNote: 7.2.3
 BugReports: https://github.com/hputter/mstate/issues
 VignetteBuilder: knitr
 Author: Hein Putter [aut, cre],
@@ -56,4 +55,4 @@ Author: Hein Putter [aut, cre],
   Edouard F. Bonneville [aut],
   Damjan Manevski [ctb]
 Maintainer: Hein Putter <H.Putter@lumc.nl>
-Date/Publication: 2021-11-08 11:50:02 UTC
+Date/Publication: 2024-07-11 21:30:06 UTC

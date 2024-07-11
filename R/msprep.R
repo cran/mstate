@@ -222,7 +222,7 @@ msprep <- function (time, status, data, trans, start, id, keep)
     msres <- msres[ord, ]
     row.names(msres) <- 1:nrow(msres)
     if (!is.null(idlevels)) 
-        msres[, 1] <- factor(msres[, 1], 1:length(idlevels), 
+        msres[, 1] <- factor(as.integer(msres[, 1]), 1:length(idlevels), 
             labels = idlevels)
     if (!missing(keep)) {
         if (!(is.matrix(keep) | (is.data.frame(keep)))) {
@@ -392,8 +392,8 @@ msprepEngine <- function(time,status,id,starttime,startstate,trans,originalState
         }
     }
     if (length(to.remove)>0) {
-        time <- time[-to.remove,]
-        status <- status[-to.remove,]
+        time <- time[-to.remove, , drop = FALSE]
+        status <- status[-to.remove, , drop = FALSE]
         newtime <- newtime[-to.remove]          
         newstate <- newstate[-to.remove]
         id <- id[-to.remove]

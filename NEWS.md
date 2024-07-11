@@ -1,4 +1,10 @@
-Version 0.3.2 (2021-11-08)
+# Version 0.3.3 (2024-07-03)
+- Fixed issue with msprep() that occurred with very long vectors/mismatch between numeric id columns and integer id levels - thanks to @fumi-github for fixing #26 
+- Fixed issue #16 inside msfit (dimension of hlp) - thanks to @MetzgerSK
+- Fixed issue #27 with msfit() and vartype=="aalen", similar to an issue in previous version - thanks to @MetzgerSK
+- Other fixes: #31 (dimensions preserved when transitions made by only one individual), #30 (two-state model with vartype=="aalen" now works), #13 (proper output returned for mssample() when output='data'),a minor issue with vis.mirror.pt(), Cuminc() update (coerces data to data.frame, and removes defunct failcode argument)
+
+# Version 0.3.2 (2021-11-08)
 - Multi-state models can now be run accounting for population mortality,
   by adding relsurv functionality, see Manevski et al. (2021)
 - plot.msfit() allows confidence intervals around the cumulative hazards
@@ -6,10 +12,10 @@ Version 0.3.2 (2021-11-08)
 - msprep() now accepts tibbles and data.tables
 - Fixed issues #5 and #9 from github
 
-Version 0.3.1 (2020-12-17)
+# Version 0.3.1 (2020-12-17)
 - Added test for Markov assumption from Titman & Putter (2020) in
   Biostatistics
-- Added ggplot versions of plot.msfit and plot.probtrans, as
+- Added ggplot # Versions of plot.msfit and plot.probtrans, as
   well as visualisation of multiple probtrans objects and mirrored
   plots, see the vignette on visualisation
 - Improved summary functions for msfit and probtrans objects
@@ -17,24 +23,24 @@ Version 0.3.1 (2020-12-17)
 - Fixed bug in msprep
 - Oxygenized all R functions
 
-Version 0.2.12 (2019-12-10)
+# Version 0.2.12 (2019-12-10)
 - fixed bug in Cuminc caused by new survival (>=3) package
 
-Version 0.2.11 (2018-04-06)
+# Version 0.2.11 (2018-04-06)
 - fixed bug in msprep
 
-Version 0.2.10 (2016-12-03)
+# Version 0.2.10 (2016-12-03)
 - Changed call to survfit in Cuminc function
 - Changed to.trans2 function in misc.R
 
-Version 0.2.9 (2016-02-28)
-- Repaired small bug in msprep introduced in version 0.2.8, in case
+# Version 0.2.9 (2016-02-28)
+- Repaired small bug in msprep introduced in # Version 0.2.8, in case
   of one covariate.
 - Added LMAJ function to estimate non-parametrically transition
   probabilities for possibly non-Markov multi-state models. LMAJ
   stands for landmark Aalen-Johansen.
 
-Version 0.2.8 (2015-12-05)
+# Version 0.2.8 (2015-12-05)
 - crprep function. Object orientation is introduced. Function is
   renamed to crprep.default. Code that calculates the weights has
   been rewritten. It contains an extra argument "strata" that
@@ -64,7 +70,7 @@ Version 0.2.8 (2015-12-05)
   is not possible. Some of the functionality of defining events and
   failcodes has gone.
 
-Version 0.2.7 (2014-05-29)
+# Version 0.2.7 (2014-05-29)
 - Added function cutLMms (mirrored after cutLM from dynpred) that cuts a multi-
   state data frame (object of type "msdata") at a landmark time point LM;
   administrative censoring at one common time point is also supported
@@ -73,7 +79,7 @@ Version 0.2.7 (2014-05-29)
   a probtrans object
 - Added disclaimers to the EBMT data sets
 - Repaired a bug in the example of events()
-- Made a much user-friendlier version of the covariance matrix (list element
+- Made a much user-friendlier # Version of the covariance matrix (list element
   K+1 with K states) of probtrans. NOTE: the dimension has changed from
   nt x K^2 x K^2 (with nt the distinct transition time points) to
   K^2 x K^2 x (nt+1); the extra time point (time 0) is also present in the column
@@ -87,17 +93,17 @@ Version 0.2.7 (2014-05-29)
 - Fixed lwd bugs in plot.msfit and plot.probtrans
 - Citation to Geskus, Biometrics 2010, updated
 
-Version 0.2.6 (2010-12-04)
+# Version 0.2.6 (2010-12-04)
 - Citation updated
 - Function crprep added to implement the method of Geskus, Biometrics 2010
 
-Version 0.2.5 (2010-10-12)
-- Function events had been omitted from version 0.2.4; this has been restored
+# Version 0.2.5 (2010-10-12)
+- Function events had been omitted from # Version 0.2.4; this has been restored
 - Error fixed in handling of xlim in plot.probtrans
 - Reference to the mstate paper in Computer Methods and Programs in Biomedicine
   updated
 
-Version 0.2.4 (2010-05-12)
+# Version 0.2.4 (2010-05-12)
 - The ebmt4 dataset has been adapted; recovery and adverse event are abstracted.
   Simultaneous occurrences of recovery and adverse events are removed; these
   have been adapted so that recoveries occur half a day earlier. Also simultaneous
@@ -115,7 +121,7 @@ Version 0.2.4 (2010-05-12)
 - xlim has been added as explicit argument to plot.probtrans
 - Error fixed in handling last time point in msfit
 
-Version 0.2.3 (2009-11-06)
+# Version 0.2.3 (2009-11-06)
 
 - The results of calls to msfit and probtrans are now 'msfit' and 'probtrans'
   S3 objects
@@ -127,19 +133,19 @@ Version 0.2.3 (2009-11-06)
 - A convenient function, transMat, to define transition matrices, kindly
   provided by Steven McKinney, has been added
 
-Version 0.2.2 (2009-09-15)
+# Version 0.2.2 (2009-09-15)
 
 - Changed a small error in the vignette on page 9, where the written text was
   incompatible with the R output of c3
 - mstate had a call to "model.newframe" in msfit from the survival package,
-  which was removed in R version 2.9.2. In msfit,
+  which was removed in R # Version 2.9.2. In msfit,
   survival:::model.newframe(Terms, newdata, response=FALSE) has been replaced by
   model.frame(delete.response(Terms), newdata, xlev=object$xlevels)
 - Replaced the example in redrank by a much shorter one, the original is now
   only mentioned in \dontrun{}
 
 
-Version 0.2.1 (2009-07-10)
+# Version 0.2.1 (2009-07-10)
 
 - Added vignette showing how to do the analyses of Putter H, Fiocco M,
   Geskus RB (2007). Tutorial in biostatistics: Competing risks and multi-state

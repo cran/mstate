@@ -211,7 +211,7 @@
   # Check split.transitions argument value:
   if(missing(split.transitions)) stop("Please define split.transitions.")
   else{
-    if(class(split.transitions) == "numeric"){
+    if (inherits(split.transitions, "numeric")) { 
       if(!all(split.transitions %in% 1:max(trans, na.rm=TRUE))) stop("Invalid transitions used inside argument split.transitions.")
     }
     else stop("Argument split.transitions expects values of class numeric")
@@ -436,7 +436,7 @@
       #                         ifelse(state=="pstate4", "HCT->NRM.e",
       #                                ifelse(state=="pstate5", "HCT->DaR.p", "HCT->DaR.e"))))
     }
-    ordering <- order(varHaz_new[,c("trans1", "trans2")])
+    ordering <- order(as.vector(as.matrix(varHaz_new[,c("trans1", "trans2")])))
     varHaz_new <- varHaz_new[ordering,,drop=FALSE]
     varHaz_new <- stats::na.omit(varHaz_new)
     rownames(varHaz_new) <- 1:nrow(varHaz_new)
